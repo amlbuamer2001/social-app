@@ -27,6 +27,7 @@ export default function Login() {
       password: "",
     },
     resolver: zodResolver(schema),
+    mode: "onTouched",
   });
 
   let { register, handleSubmit, formState } = form;
@@ -44,7 +45,6 @@ export default function Login() {
       })
       .catch((error) => {
         setloading(false);
-
         setApiError(error.response.data.error);
       });
   }

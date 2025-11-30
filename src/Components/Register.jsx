@@ -51,7 +51,8 @@ export default function Register() {
       dateOfBirth: "",
       gender: "",
     },
-    resolver:zodResolver(schema)
+    resolver:zodResolver(schema),
+    mode:'onTouched'
   });
 
   let { register, handleSubmit, formState } = form;
