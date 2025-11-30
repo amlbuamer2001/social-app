@@ -5,6 +5,7 @@ import Login from "./Components/Login";
 import Register from "./Components/Register";
 import NotFound from "./Components/NotFound";
 import Profile from "./Components/Profile";
+import { UserContextProvider } from "./Context/UserContext";
 
 let route = createBrowserRouter([
   {
@@ -21,8 +22,10 @@ let route = createBrowserRouter([
 
 export function App() {
   return (
-   <RouterProvider router={route}>
+   <UserContextProvider>
+    <RouterProvider router={route}>
     <Layout/>
    </RouterProvider>
+   </UserContextProvider>
   );
 }

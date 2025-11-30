@@ -1,14 +1,15 @@
 import { useForm } from "react-hook-form";
-import Register from "./Register";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import {  useContext, useState } from "react";
+import { UserContext } from "../Context/UserContext";
 
 export default function Login() {
   const [apiError, setApiError] = useState("");
   const [loading, setloading] = useState(false);
+  const {setUser} = useContext(UserContext);
   let navigate = useNavigate();
 
   let schema = z.object({
@@ -37,10 +38,13 @@ export default function Login() {
     axios
       .post(`https://linked-posts.routemisr.com/users/signin`, data)
       .then((res) => {
-        setloading(false);
+        
+        
         if (res.data.message === "success") {
-          //go login
-          navigate("/home");
+          setloading(false);
+          navigate("/home");            //go login
+          localStorage.setItem("userToken", res.data.token);
+          setUser(res.data.token)
         }
       })
       .catch((error) => {
@@ -104,7 +108,7 @@ export default function Login() {
         type="submit"
         className="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none"
       >
-        {loading ? 'loading' : 'Submit'}
+        {loading ? 'loading...' : 'Submit'}
       </button>
     </form>
   );
