@@ -8,6 +8,9 @@ import Profile from "./Components/Profile";
 import { UserContextProvider } from "./Context/UserContext";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import { PostsContextProvider } from "./Context/postsContext";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+const query = new QueryClient();
 
 let route = createBrowserRouter([
   {
@@ -41,7 +44,10 @@ export function App() {
   return (
     <UserContextProvider>
       <PostsContextProvider>
-        <RouterProvider router={route} />
+        <QueryClientProvider client={query}>
+          <RouterProvider router={route} />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>  
       </PostsContextProvider>
     </UserContextProvider>
   );

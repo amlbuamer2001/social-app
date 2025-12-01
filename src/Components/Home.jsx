@@ -2,23 +2,27 @@ import { useContext, useEffect, useState } from "react";
 import { PostsContext } from "../Context/postsContext";
 
 export default function Home() {
-  const { getAllPosts } = useContext(PostsContext);
-  const [posts, setPosts] = useState([]);
-  async function getPosts() {
-    try {
-      let res = await getAllPosts();
-      console.log(res);
-      setPosts(res);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // const { getAllPosts } = useContext(PostsContext);
+  // const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    getPosts();
-  }, []);
+
+  // async function getPosts() {
+  //   try {
+  //     let res = await getAllPosts();
+  //     console.log(res);
+  //     setPosts(res);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   getPosts();
+  // }, []);
+
+
   return <>
-{posts.map((post)=>{
+{[].map((post)=>{
   return(
     <div key={post.id} className="w-full md:w-[80%] lg:w-[60%] mx-auto my-8 p-4 rounded-md bg-slate-100">
       <div className="flex align-center justify-between mb-4">
