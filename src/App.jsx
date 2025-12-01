@@ -7,7 +7,7 @@ import NotFound from "./Components/NotFound";
 import Profile from "./Components/Profile";
 import { UserContextProvider } from "./Context/UserContext";
 import ProtectedRoute from "./Components/ProtectedRoute";
-import { PostContextProvider } from "./Context/postsContext";
+import { PostsContextProvider } from "./Context/postsContext";
 
 let route = createBrowserRouter([
   {
@@ -40,9 +40,9 @@ let route = createBrowserRouter([
 export function App() {
   return (
     <UserContextProvider>
-      <PostContextProvider>
+      <PostsContextProvider>
         <RouterProvider router={route} />
-      </PostContextProvider>
+      </PostsContextProvider>
     </UserContextProvider>
   );
 }

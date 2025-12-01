@@ -1,30 +1,25 @@
 import axios from "axios";
-import { createContext, useEffect } from "react";
+import { createContext } from "react";
 
-export const PostContext = createContext();
+export const PostsContext = createContext();
 
-export function PostContextProvider(props) {
-  function getPosts() {
-    //  ?limit=50 called params
-    axios
-      .get(`https://linked-posts.routemisr.com/posts?limit=50`, {
-        //configuration object
-        headers: {
-          token: localStorage.getItem("userToken"),
-        },
-      })
-
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+export function PostsContextProvider(props) {
+  function getAllPosts() {
+    // fetch all posts from the server
+    return axios.get(`https://linked-posts.routemisr.com/posts?limit=50`, {
+      headers: {
+        token: localStorage.getItem("userToken"),
+      },
+    })
+    .then((res)=>{
+      return res.data.posts;
+    })
+    .catch((err)=>{
+      return err;
+    })
   }
 
   return (
-    <PostContext.Provider value={{ getPosts }}>
-      {props.children}
-    </PostContext.Provider>
+    <PostsContext.Provider value={{getAllPosts, PostsContext}}>{props.children}</PostsContext.Provider>
   );
 }
