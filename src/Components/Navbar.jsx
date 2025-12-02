@@ -1,10 +1,21 @@
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../Context/UserContext";
+import { UserProfileContext } from "../Context/UserProfileContext";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Navbar() {
   const { user, setUser } = useContext(UserContext);
+  let { getUserProfile } = useContext(UserProfileContext);
   const navigate = useNavigate();
+
+  let { data } = useQuery({
+    queryKey: ["userProfile"],
+    queryFn: getUserProfile,
+    select: (data) => data.data.user,
+  });
+  console.log(data);
+
 
   function signOut() {
     localStorage.removeItem("userToken");
@@ -38,7 +49,7 @@ export default function Navbar() {
                   <span className="sr-only">Open user menu</span>
                   <img
                     className="w-8 h-8 rounded-full"
-                    src="/docs/images/people/profile-picture-5.jpg"
+                    src={data?.photo}
                     alt="user photo"
                   />
                 </button>
@@ -48,10 +59,10 @@ export default function Navbar() {
                 >
                   <div className="px-4 py-3 text-sm border-b border-default">
                     <span className="block text-heading font-medium">
-                      Joseph McFall
+                      {data?.name}
                     </span>
                     <span className="block text-body truncate">
-                      name@flowbite.com
+                      {data?.email}
                     </span>
                   </div>
                   <ul
