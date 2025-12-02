@@ -22,6 +22,7 @@ export function PostsContextProvider(props) {
   // }
 
   return (
+    // <PostsContext.Provider value={{getAllPosts}}>{props.children}</PostsContext.Provider>
     <PostsContext.Provider value={{}}>{props.children}</PostsContext.Provider>
   );
 }

@@ -10,6 +10,9 @@ import ProtectedRoute from "./Components/ProtectedRoute";
 import { PostsContextProvider } from "./Context/postsContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import PostDetails from "./Components/postDetails";
+
+
 const query = new QueryClient();
 
 let route = createBrowserRouter([
@@ -30,6 +33,14 @@ let route = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Profile />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "postDetails/:id",
+        element: (
+          <ProtectedRoute>
+            <PostDetails />
           </ProtectedRoute>
         ),
       },
