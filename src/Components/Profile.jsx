@@ -33,7 +33,7 @@ console.log(data);
     <h6>date of birth: {data?.dateOfBirth}</h6>
     </div>
 
-    <UserPosts/>
+    <UserPosts id={data?._id}/>
     </>
   )
 }
