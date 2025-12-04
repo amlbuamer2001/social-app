@@ -5,6 +5,7 @@ import axios from "axios";
 import { ImageWithLoader } from "./ImageWithLoader";
 import Comments from "./Comments";
 import { Link } from "react-router-dom";
+import CreateCommentModal from "./CreateCommentModal";
 
 export default function Home() {
   // const { getAllPosts } = useContext(PostsContext);
@@ -53,10 +54,8 @@ export default function Home() {
     <>
       {data?.map((post) => {
         return (
-         <Link to={`/postDetails/${post.id}`} key={post.id}>
-          <div
-            className="w-full md:w-[80%] lg:w-[60%] mx-auto my-8 p-4 rounded-md bg-slate-100"
-          >
+          <div key={post.id} className="w-full md:w-[80%] lg:w-[60%] mx-auto my-8 p-4 rounded-md bg-slate-100">
+            <Link to={`/postDetails/${post.id}`}>
             <div className="flex align-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <img
@@ -74,8 +73,10 @@ export default function Home() {
             {post.image && <ImageWithLoader src={post.image} alt={post.body} />}
           
           <Comments comment={post.comments[0]}/>
-          </div>
          </Link>
+
+         <CreateCommentModal postid={post.id}/>
+          </div>
         );
       })}
     </>
