@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import React from 'react'
 import UserPosts from './UserPosts'
+import ChangePasswordModal from './ChangePasswordModal'
 
 export default function Profile() {
 
@@ -32,6 +33,12 @@ console.log(data);
     <h6>gender: {data?.gender}</h6>
     <h6>date of birth: {data?.dateOfBirth}</h6>
     </div>
+
+    <div className='w-full md:w-[80%] lg:w-[60%] mx-auto text-center  p-4'>
+<ChangePasswordModal/>
+</div>
+
+
 
     <UserPosts id={data?._id}/>
     </>

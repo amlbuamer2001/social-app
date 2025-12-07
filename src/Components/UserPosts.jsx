@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { da } from "zod/locales";
 
 export default function UserPosts({ id }) {
   function getUserPosts() {
