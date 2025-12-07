@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { tokens } from './../../node_modules/@tanstack/query-devtools/src/theme';
+import toast from 'react-hot-toast';
 
 export default function CreateCommentModal({postid}) {
    const [show,setShow] = useState(false);
@@ -21,12 +22,13 @@ export default function CreateCommentModal({postid}) {
     try {
         let res= await axios.post(`https://linked-posts.routemisr.com/comments`,value,{
         headers:{
-            tokens:localStorage.getItem('userToken')
+            token:localStorage.getItem('userToken')
         }
     })
+    toast.success('comment added successfully');
     } catch (error) {
         console.log(error);
-        
+        toast.error('Failed to add comment. Please try again.');
     }
 
    }
@@ -37,7 +39,7 @@ export default function CreateCommentModal({postid}) {
       onClick={showModal}
         data-modal-target="authentication-modal" 
         data-modal-toggle="authentication-modal" 
-        className="text-dark focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none border mt-4" 
+        className="text-dark focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none cursor-pointer border mt-4" 
         type="button"
       >
         Add Comment

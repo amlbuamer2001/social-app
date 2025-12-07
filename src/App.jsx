@@ -12,7 +12,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import PostDetails from "./Components/postDetails";
 import { UserProfileContextProvider } from "./Context/UserProfileContext";
-
+import toast, { Toaster } from "react-hot-toast";
 
 const query = new QueryClient();
 
@@ -56,12 +56,13 @@ export function App() {
   return (
     <UserContextProvider>
       <UserProfileContextProvider>
-      <PostsContextProvider>
-        <QueryClientProvider client={query}>
-          <RouterProvider router={route} />
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>  
-      </PostsContextProvider>
+        <PostsContextProvider>
+          <QueryClientProvider client={query}>
+            <RouterProvider router={route} />
+            <ReactQueryDevtools initialIsOpen={false} />
+            <Toaster/>
+          </QueryClientProvider>
+        </PostsContextProvider>
       </UserProfileContextProvider>
     </UserContextProvider>
   );
