@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 
 export default function CreateCommentModal({postid}) {
    const [show,setShow] = useState(false);
+   
 
    const {register,handleSubmit} = useForm({
     defaultValues:{
@@ -25,6 +26,7 @@ export default function CreateCommentModal({postid}) {
             token:localStorage.getItem('userToken')
         }
     })
+    setShow(false);
     toast.success('comment added successfully');
     } catch (error) {
         console.log(error);

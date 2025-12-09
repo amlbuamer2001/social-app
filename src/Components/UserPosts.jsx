@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { ImageWithLoader } from "./ImageWithLoader";
 
 export default function UserPosts({ id }) {
   function getUserPosts() {

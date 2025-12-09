@@ -1,15 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 
-export default function ChangePasswordModal() {
+export default function ChangePhoto() {
   const [show, setShow] = useState(false);
 
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      password: "",
-      newPassword: "",
+      photo: "",
     },
   });
 
@@ -17,32 +15,26 @@ export default function ChangePasswordModal() {
     setShow(!show);
   }
 
-  function handleChangePassword(values) {
-    axios
-      .patch(
-        `https://linked-posts.routemisr.com/users/change-password`,
-        values,
-        {
-          headers: {
-            token: localStorage.getItem("userToken"),
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-        if (res.data.message === "success") {
-          console.log(res);
-          
-          localStorage.setItem("userToken", res.data.token);
-          toast.success("password changed successfully");
-          setShow(false);
-        }
-      })
-      .catch((err) => {
-        // toast.error(res.data.message);
-        console.log(err);
-        
-      });
+  function handleChangePhoto(values) {
+    // consfole.log(values.photo[0]);
+    let myPhoto=new FormData(); 
+    myPhoto.append("photo", values.photo[0]);
+
+    axios.patch(`https://linked-posts.routemisr.com/users/upload-photo
+`, myPhoto, {
+      headers: {
+        token: localStorage.getItem("userToken"),
+  }})
+    .then((res) => {
+      console.log(res);
+      if(res.data.message==="success"){
+        toast.success("photo uploaded successfully");
+        setShow(false);
+      }
+    })
+    .catch((err) => {
+      toast.error(err.response.data.error);     
+    })
   }
 
   return (
@@ -54,7 +46,7 @@ export default function ChangePasswordModal() {
         className="cursor-pointer text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none"
         type="button"
       >
-        change password
+        upload profile photo
       </button>
       {show && (
         <div
@@ -67,7 +59,8 @@ export default function ChangePasswordModal() {
             <div className="relative bg-neutral-primary-soft border border-default rounded-base shadow-sm p-4 md:p-6">
               <div className="flex items-center justify-between border-b border-default pb-4 md:pb-5">
                 <h3 className="text-lg font-medium text-heading">
-                  change password
+        upload profile photo
+                  
                 </h3>
                 <button
                   onClick={changeShow}
@@ -96,43 +89,29 @@ export default function ChangePasswordModal() {
                 </button>
               </div>
               <form
-                onSubmit={handleSubmit(handleChangePassword)}
+                onSubmit={handleSubmit(handleChangePhoto)}
                 className="pt-4 md:pt-6"
               >
                 <div>
-                  <label
-                    htmlFor="password"
-                    className="block mb-2.5 text-sm font-medium text-heading"
-                  >
-                    Your old password
-                  </label>
+                
                   <input
-                    type="password"
-                    {...register("password")}
-                    id="password"
-                    className="mb-4 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
+                    type="file"
+                    {...register("photo")}
+                    id="photo"
+                    className="hidden mb-4 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
                   />
-                </div>
-                <div>
-                  <label
-                    htmlFor="newPassword"
-                    className="block mb-2.5 text-sm font-medium text-heading"
-                  >
-                    Your new Password
+                  <label htmlFor="photo" className="flex items-center justify-center gap-2 my-6 p-5 cursor-pointer">
+                  <i className="fa-solid fa-image fa-2xl"></i>
+
                   </label>
-                  <input
-                    type="password"
-                    {...register("newPassword")}
-                    id="newPassword"
-                    className="mb-4 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
-                  />
                 </div>
+              
 
                 <button
                   type="submit"
                   className="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none w-full mb-3"
                 >
-                  change your password
+                  ok
                 </button>
               </form>
             </div>

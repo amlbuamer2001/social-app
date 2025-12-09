@@ -4,7 +4,6 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import Comments from "./Comments";
 import { ImageWithLoader } from "./ImageWithLoader";
-import { da } from "zod/locales";
 
 export default function PostDetails() {
   let { id } = useParams();
