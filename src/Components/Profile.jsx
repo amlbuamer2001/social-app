@@ -37,7 +37,7 @@ export default function Profile() {
         <ChangePhoto />
       </div>
 
-      <UserPosts id={data?._id} />
+      {data && <UserPosts id={data?._id} />}
     </>
   );
 }

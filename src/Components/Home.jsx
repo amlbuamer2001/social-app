@@ -6,6 +6,7 @@ import { ImageWithLoader } from "./ImageWithLoader";
 import Comments from "./Comments";
 import { Link } from "react-router-dom";
 import CreateCommentModal from "./CreateCommentModal";
+import CreatePost from "./CreatePost";
 
 export default function Home() {
   // const { getAllPosts } = useContext(PostsContext);
@@ -52,6 +53,7 @@ export default function Home() {
 
   return (
     <>
+     <CreatePost/>
       {data?.map((post) => {
         return (
           <div key={post.id} className="w-full md:w-[80%] lg:w-[60%] mx-auto my-8 p-4 rounded-md bg-slate-100">
