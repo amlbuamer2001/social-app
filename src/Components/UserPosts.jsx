@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { ImageWithLoader } from "./ImageWithLoader";
 import Comments from "./Comments";
 import CreateCommentModal from "./CreateCommentModal";
+import UpdatePost from "./UpdatePost";
 
 export default function UserPosts({ id }) {
   function getUserPosts() {
@@ -47,6 +48,9 @@ export default function UserPosts({ id }) {
           {post?.comments?.length > 0 && <Comments comment={post?.comments[0]} />}
            {/* <Comments comment={post?.comments[0]} /> */}
           <CreateCommentModal postid={post.id} />
+      
+        <UpdatePost />
+
         </div>
       ))}
     </div>
