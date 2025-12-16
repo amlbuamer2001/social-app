@@ -77,7 +77,7 @@ export default function Home() {
           <Comments comment={post.comments[0]}/>
          </Link>
 
-         <CreateCommentModal postid={post.id}/>
+         <CreateCommentModal postId={post.id}/>
           </div>
         );
       })}

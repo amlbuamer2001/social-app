@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ImageWithLoader } from "./ImageWithLoader";
 import Comments from "./Comments";
 import CreateCommentModal from "./CreateCommentModal";
@@ -28,7 +28,8 @@ export default function UserPosts({ id }) {
   return (
     <div className="posts">
       {data?.map((post) => (
-        <div key={post.id} className="w-full md:w-[80%] lg:w-[60%] mx-auto my-8 p-4 rounded-md bg-slate-100 relative">
+        <Link to={`/postDetails/${post.id}`}>
+<div key={post.id} className="w-full md:w-[80%] lg:w-[60%] mx-auto my-8 p-4 rounded-md bg-slate-100 relative">
           <div className="flex align-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <img
@@ -49,10 +50,13 @@ export default function UserPosts({ id }) {
 
           {post?.comments?.length > 0 && <Comments comment={post?.comments[0]} />}
            {/* <Comments comment={post?.comments[0]} /> */}
-          <CreateCommentModal postId={post.id} />
+          <CreateCommentModal postId={post?.id} />
       
 
         </div>
+          </Link>
+
+        
       ))}
     </div>
   );

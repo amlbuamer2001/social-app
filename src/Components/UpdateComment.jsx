@@ -1,16 +1,17 @@
-import { useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
-export default function UpdatePost({ postId }) {
-  const [show, setShow] = useState(false);
+
+import { QueryClient, useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import Comments from './Comments';
+export default function UpdateComment({commentId}) {
+    const [show, setShow] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   let queryClient = useQueryClient();
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      body: "",
-      image: "",
+      content: "",
     },
   });
 
@@ -24,14 +25,10 @@ export default function UpdatePost({ postId }) {
 
   async function handleUpdatePost(values) {
     console.log(values);
-    let formData = FormData();
-    formData.append("body", values.body);
-    formData.append("image", values.image[0]);
-
     try {
       let response = await axios.put(
-        `https://linked-posts.routemisr.com/posts/${postId}`,
-        formData,
+        `https://linked-posts.routemisr.com/comments/${commentId}`,
+        values,
         {
           headers: {
             token: localStorage.getItem("userToken"),
@@ -47,37 +44,19 @@ export default function UpdatePost({ postId }) {
       toast.error(error.message);
     }
 
-    // try {
-    //   let response = await axios.patch(
-    //     `https://linked-posts.routemisr.com/posts/${postId}`,
-    //     formData,
-    //     {
-    //       headers: {
-    //         token: localStorage.getItem("userToken"),
-    //       },
-    //     }
-    //   );
-
-    //   if (response.data.message === "success") {
-    //     toast.success("post updated successfully");
-    //     setShow(false);
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
   }
 
-  function deletePost(postId) {
+  function deletePost(CommentId) {
     axios
-      .delete(`https://linked-posts.routemisr.com/posts/${postId}`, {
+      .delete(`https://linked-posts.routemisr.com/comments/${CommentId}`, {
         headers: {
           token: localStorage.getItem("userToken"),
         },
       })
       .then((response) => {
         if (response.data.message === "success") {
+            setShow(false);
           toast.success("post deleted successfully");
-          queryClient.invalidateQueries({ queryKey: ["getPosts"] });
         }
       })
       .catch((error) => {
@@ -85,12 +64,13 @@ export default function UpdatePost({ postId }) {
       });
   }
 
+
   return (
     <>
       <button
         onClick={showDropdownMenu}
         data-dropdown-toggle="dropdown"
-        className="inline-flex items-center justify-center border border-transparent hover:bg-slate-100 shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none"
+        className="relative cursor-pointer inline-flex items-center justify-center border border-transparent hover:bg-slate-100 shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none"
         type="button"
       >
         <i className="fa-solid fa-ellipsis-vertical"></i>
@@ -116,7 +96,7 @@ export default function UpdatePost({ postId }) {
             </li>
             <li>
               <a
-                onClick={() => deletePost(postId)}
+                onClick={() => deletePost(commentId)}
                 className="inline-flex items-center w-full p-2 cursor-pointer hover:bg-neutral-tertiary-medium hover:text-red-700 rounded"
               >
                 delete
@@ -157,28 +137,14 @@ export default function UpdatePost({ postId }) {
                     add text
                   </label>
                   <input
-                    {...register("body")}
+                    {...register("content")}
                     type="text"
                     className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
                     placeholder="post description"
                   />
                 </div>
 
-                <div className="mb-4">
-                  <label
-                    htmlFor="image"
-                    className="block mb-2.5 text-center text-2xl font-medium text-heading block"
-                  >
-                    <i className="fa-solid fa-image fa-2xl"></i>
-                  </label>
-                  <input
-                    {...register("image")}
-                    type="file"
-                    hidden
-                    id="image"
-                    className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
-                  />
-                </div>
+          
 
                 <button
                   type="submit"
@@ -192,5 +158,5 @@ export default function UpdatePost({ postId }) {
         </div>
       )}
     </>
-  );
+  )
 }
