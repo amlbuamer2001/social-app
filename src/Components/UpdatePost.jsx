@@ -1,9 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
-export default function UpdatePost() {
+export default function UpdatePost({ postId }) {
   const [show, setShow] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const { register, handleSubmit } = useForm({
     defaultValues: {
@@ -16,25 +18,76 @@ export default function UpdatePost() {
     setShow(true);
   }
 
-  async function addComment(values) {
+  function showDropdownMenu() {
+    setShowDropdown(!showDropdown);
+  }
+
+  async function handleUpdatePost(values) {
     console.log(values);
+    let formData = new FormData();
+    formData.append("body", values.body);
+    formData.append("image", values.image[0]);
+
+    try {
+      let response = await axios.patch(
+        `https://linked-posts.routemisr.com/posts/${postId}`,
+        formData,
+        {
+          headers: {
+            token: localStorage.getItem("userToken"),
+          },
+        }
+      );
+
+      if (response.data.message === "success") {
+        toast.success("post updated successfully");
+        setShow(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
     <>
       <button
-        onClick={showModal}
-        data-modal-target="updatePost-modal"
-        data-modal-toggle="updatePost-modal"
-        className="text-dark focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 mx-2 py-2.5 focus:outline-none cursor-pointer border mt-4"
+        onClick={showDropdownMenu}
+        data-dropdown-toggle="dropdown"
+        className="inline-flex items-center justify-center border border-transparent hover:bg-slate-100 shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none"
         type="button"
       >
-        update post
+        <i className="fa-solid fa-ellipsis-vertical"></i>
       </button>
+
+      {showDropdown && (
+        <div
+          id="dropdown"
+          className="z-10 absolute bg-neutral-primary-medium border border-default-medium rounded-base shadow-lg w-44"
+        >
+          <ul
+            className="p-2 text-sm text-body font-medium"
+            aria-labelledby="dropdownDefaultButton"
+          >
+            <li></li>
+            <li>
+              <a
+                onClick={showModal}
+                className="inline-flex items-center w-full p-2 cursor-pointer hover:bg-neutral-tertiary-medium hover:text-blue-900 rounded"
+              >
+                edit
+              </a>
+            </li>
+            <li>
+              <a className="inline-flex items-center w-full p-2 cursor-pointer hover:bg-neutral-tertiary-medium hover:text-red-700 rounded">
+                delete
+              </a>
+            </li>
+          </ul>
+        </div>
+      )}
 
       {show && (
         <div
-          id="updatePost-modal"
           tabIndex={-1}
           aria-hidden="true"
           className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -53,6 +106,7 @@ export default function UpdatePost() {
               </div>
 
               <form
+                onSubmit={handleSubmit(handleUpdatePost)}
                 className="pt-4 md:pt-6"
               >
                 <div className="mb-4">
@@ -73,13 +127,14 @@ export default function UpdatePost() {
                 <div className="mb-4">
                   <label
                     htmlFor="image"
-                    className="block mb-2.5 text-sm font-medium text-heading block"
+                    className="block mb-2.5 text-center text-2xl font-medium text-heading block"
                   >
                     <i className="fa-solid fa-image fa-2xl"></i>
                   </label>
                   <input
                     {...register("image")}
                     type="file"
+                    hidden
                     id="image"
                     className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
                   />
@@ -87,9 +142,9 @@ export default function UpdatePost() {
 
                 <button
                   type="submit"
-                  className="text-white bg-brand border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 mx-auto cursor-pointer focus:outline-none  mb-3"
+                  className="text-white mx-auto w-[100%] bg-brand border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 mx-auto cursor-pointer focus:outline-none  mb-3"
                 >
-                  add comment
+                  confirm
                 </button>
               </form>
             </div>

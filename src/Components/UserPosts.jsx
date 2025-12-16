@@ -28,7 +28,7 @@ export default function UserPosts({ id }) {
   return (
     <div className="posts">
       {data?.map((post) => (
-        <div key={post.id} className="w-full md:w-[80%] lg:w-[60%] mx-auto my-8 p-4 rounded-md bg-slate-100">
+        <div key={post.id} className="w-full md:w-[80%] lg:w-[60%] mx-auto my-8 p-4 rounded-md bg-slate-100 relative">
           <div className="flex align-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <img
@@ -38,8 +38,10 @@ export default function UserPosts({ id }) {
               />
               <p className="font-bold">{post?.user?.name}</p>
             </div>
-            <div>
-              <p className="text-xs text-slate-400">{post?.createdAt}</p>
+            <div className="flex gap-4">
+              <p className="text-xs text-slate-400 m-auto">{post?.createdAt}</p>
+        <UpdatePost postId={post.id} />
+
             </div>
           </div>
           {post?.body && <p className="mb-4">{post.body}</p>}
@@ -47,9 +49,8 @@ export default function UserPosts({ id }) {
 
           {post?.comments?.length > 0 && <Comments comment={post?.comments[0]} />}
            {/* <Comments comment={post?.comments[0]} /> */}
-          <CreateCommentModal postid={post.id} />
+          <CreateCommentModal postId={post.id} />
       
-        <UpdatePost />
 
         </div>
       ))}
