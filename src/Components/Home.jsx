@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { PostsContext } from "../Context/postsContext";
+// import { PostsContext } from "../Context/postsContext";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { ImageWithLoader } from "./ImageWithLoader";
