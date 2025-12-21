@@ -9,7 +9,7 @@ import UpdatePost from "./UpdatePost";
 export default function UserPosts({ id }) {
   function getUserPosts() {
     return axios.get(
-      `https://linked-posts.routemisr.com/users/${id}/posts?limit=2`,
+      `https://linked-posts.routemisr.com/users/${id}/posts`,
       {
         headers: {
           token: localStorage.getItem("userToken"),
@@ -28,35 +28,39 @@ export default function UserPosts({ id }) {
   return (
     <div className="posts">
       {data?.map((post) => (
-        <Link to={`/postDetails/${post.id}`}>
-<div key={post.id} className="w-full md:w-[80%] lg:w-[60%] mx-auto my-8 p-4 rounded-md bg-slate-100 relative">
-          <div className="flex align-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <img
-                src={post?.user?.photo || ""}
-                alt={post?.user?.name}
-                className="size-[40px] rounded-full"
-              />
-              <p className="font-bold">{post?.user?.name}</p>
+        <Link key={post.id} to={`/postDetails/${post.id}`}>
+          <div
+            
+            className="w-full md:w-[80%] lg:w-[60%] mx-auto my-8 p-4 rounded-md bg-slate-100 relative"
+          >
+            <div className="flex align-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <img
+                  src={post?.user?.photo || ""}
+                  alt={post?.user?.name}
+                  className="size-[40px] rounded-full"
+                />
+                <p className="font-bold">{post?.user?.name}</p>
+              </div>
+              <div className="flex gap-4">
+                <p className="text-xs text-slate-400 m-auto">
+                  {post?.createdAt}
+                </p>
+                <UpdatePost postId={post.id} />
+              </div>
             </div>
-            <div className="flex gap-4">
-              <p className="text-xs text-slate-400 m-auto">{post?.createdAt}</p>
-        <UpdatePost postId={post.id} />
+            {post?.body && <p className="mb-4">{post.body}</p>}
+            {post?.image && (
+              <ImageWithLoader src={post?.image} alt={post?.body} />
+            )}
 
-            </div>
+            {post?.comments?.length > 0 && (
+              <Comments comment={post?.comments[0]} />
+            )}
+            {/* <Comments comment={post?.comments[0]} /> */}
+            <CreateCommentModal postId={post?.id} />
           </div>
-          {post?.body && <p className="mb-4">{post.body}</p>}
-          {post?.image && <ImageWithLoader src={post?.image} alt={post?.body} />}
-
-          {post?.comments?.length > 0 && <Comments comment={post?.comments[0]} />}
-           {/* <Comments comment={post?.comments[0]} /> */}
-          <CreateCommentModal postId={post?.id} />
-      
-
-        </div>
-          </Link>
-
-        
+        </Link>
       ))}
     </div>
   );

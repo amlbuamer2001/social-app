@@ -42,8 +42,6 @@ let queryClient = useQueryClient();
     <>
       <button
         onClick={showModal}
-        data-modal-target="authentication-modal"
-        data-modal-toggle="authentication-modal"
         className="text-dark focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none cursor-pointer border mt-4"
         type="button"
       >
@@ -52,7 +50,6 @@ let queryClient = useQueryClient();
 
       {show && (
         <div
-          id="authentication-modal"
           tabIndex={-1}
           aria-hidden="true"
           className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -64,7 +61,6 @@ let queryClient = useQueryClient();
                   onClick={() => setShow(false)}
                   type="button"
                   className="text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center"
-                  data-modal-hide="authentication-modal"
                 >
                   <i className="fa-solid fa-xmark"></i>
                 </button>

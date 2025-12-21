@@ -29,10 +29,7 @@ export default function ChangePasswordModal() {
         }
       )
       .then((res) => {
-        console.log(res);
         if (res.data.message === "success") {
-          console.log(res);
-          
           localStorage.setItem("userToken", res.data.token);
           toast.success("password changed successfully");
           setShow(false);
@@ -41,7 +38,6 @@ export default function ChangePasswordModal() {
       .catch((err) => {
         // toast.error(res.data.message);
         console.log(err);
-        
       });
   }
 
@@ -49,8 +45,6 @@ export default function ChangePasswordModal() {
     <div>
       <button
         onClick={changeShow}
-        data-modal-target="authentication-modal"
-        data-modal-toggle="authentication-modal"
         className="cursor-pointer text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none"
         type="button"
       >
@@ -58,7 +52,6 @@ export default function ChangePasswordModal() {
       </button>
       {show && (
         <div
-          id="authentication-modal"
           tabIndex={-1}
           aria-hidden="true"
           className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -73,7 +66,6 @@ export default function ChangePasswordModal() {
                   onClick={changeShow}
                   type="button"
                   className="text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center"
-                  data-modal-hide="authentication-modal"
                 >
                   <svg
                     className="w-5 h-5"

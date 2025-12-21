@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export default function ChangePhoto() {
   const [show, setShow] = useState(false);
@@ -17,32 +18,35 @@ export default function ChangePhoto() {
 
   function handleChangePhoto(values) {
     // consfole.log(values.photo[0]);
-    let myPhoto=new FormData(); 
+    let myPhoto = new FormData();
     myPhoto.append("photo", values.photo[0]);
 
-    axios.patch(`https://linked-posts.routemisr.com/users/upload-photo
-`, myPhoto, {
-      headers: {
-        token: localStorage.getItem("userToken"),
-  }})
-    .then((res) => {
-      console.log(res);
-      if(res.data.message==="success"){
-        toast.success("photo uploaded successfully");
-        setShow(false);
-      }
-    })
-    .catch((err) => {
-      toast.error(err.response.data.error);     
-    })
+    axios
+      .put(
+        `https://linked-posts.routemisr.com/users/upload-photo
+`,
+        myPhoto,
+        {
+          headers: {
+            token: localStorage.getItem("userToken"),
+          },
+        }
+      )
+      .then((res) => {
+        if (res.data.message === "success") {
+          toast.success("photo uploaded successfully");
+          setShow(false);
+        }
+      })
+      .catch((err) => {
+        toast.error(err.response.data.error);
+      });
   }
 
   return (
     <div>
       <button
         onClick={changeShow}
-        data-modal-target="authentication-modal"
-        data-modal-toggle="authentication-modal"
         className="cursor-pointer text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none"
         type="button"
       >
@@ -50,7 +54,6 @@ export default function ChangePhoto() {
       </button>
       {show && (
         <div
-          id="authentication-modal"
           tabIndex={-1}
           aria-hidden="true"
           className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -59,14 +62,12 @@ export default function ChangePhoto() {
             <div className="relative bg-neutral-primary-soft border border-default rounded-base shadow-sm p-4 md:p-6">
               <div className="flex items-center justify-between border-b border-default pb-4 md:pb-5">
                 <h3 className="text-lg font-medium text-heading">
-        upload profile photo
-                  
+                  upload profile photo
                 </h3>
                 <button
                   onClick={changeShow}
                   type="button"
                   className="text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center"
-                  data-modal-hide="authentication-modal"
                 >
                   <svg
                     className="w-5 h-5"
@@ -93,19 +94,19 @@ export default function ChangePhoto() {
                 className="pt-4 md:pt-6"
               >
                 <div>
-                
                   <input
                     type="file"
                     {...register("photo")}
                     id="photo"
                     className="hidden mb-4 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
                   />
-                  <label htmlFor="photo" className="flex items-center justify-center gap-2 my-6 p-5 cursor-pointer">
-                  <i className="fa-solid fa-image fa-2xl"></i>
-
+                  <label
+                    htmlFor="photo"
+                    className="flex items-center justify-center gap-2 my-6 p-5 cursor-pointer"
+                  >
+                    <i className="fa-solid fa-image fa-2xl"></i>
                   </label>
                 </div>
-              
 
                 <button
                   type="submit"

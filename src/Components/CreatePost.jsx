@@ -45,7 +45,7 @@ function handleAddPost(values){
             <input {...register("body")} type="text" placeholder='what do you think?' className='w-full border-4 border-slate-400 rounded-lg'/>
         </div>
         <div>
-        <label htmlFor="photo" className='bg-red-400 block my-4 text-center cursor-pointer'>
+        <label htmlFor="photo" className='block my-4 text-center cursor-pointer'>
             <i className='fa-solid fa-image fa-2xl'></i>
         </label>
         <input {...register("image")} id='photo' type="file" className='hidden' />
