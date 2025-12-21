@@ -1,21 +1,29 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../Context/UserContext";
-import { UserProfileContext } from "../Context/UserProfileContext";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 export default function Navbar() {
   const { user, setUser } = useContext(UserContext);
-  let { getUserProfile } = useContext(UserProfileContext);
   const navigate = useNavigate();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  function getUserProfile() {
+    return axios.get(`https://linked-posts.routemisr.com/users/profile-data`, {
+      headers: {
+        token: localStorage.getItem("userToken"),
+      },
+    });
+  }
 
   let { data } = useQuery({
     queryKey: ["userProfile"],
     queryFn: getUserProfile,
-    select: (data) => data.data.user,
+    enabled: !!user,
+    select: (data) => data?.data?.user,
   });
   console.log(data);
-
 
   function signOut() {
     localStorage.removeItem("userToken");
@@ -42,9 +50,8 @@ export default function Navbar() {
                   type="button"
                   className="flex text-sm bg-neutral-primary rounded-full md:me-0 focus:ring-4 focus:ring-neutral-tertiary"
                   id="user-menu-button"
-                  aria-expanded="false"
-                  data-dropdown-toggle="user-dropdown"
-                  data-dropdown-placement="bottom"
+                  aria-expanded={isDropdownOpen}
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 >
                   <span className="sr-only">Open user menu</span>
                   <img
@@ -54,7 +61,7 @@ export default function Navbar() {
                   />
                 </button>
                 <div
-                  className="z-50 hidden bg-neutral-primary-medium border border-default-medium rounded-base shadow-lg w-44"
+                  className={`z-50 absolute top-10 right-0 ${isDropdownOpen ? "block" : "hidden"} bg-neutral-primary-medium border border-default-medium rounded-base shadow-lg w-44`}
                   id="user-dropdown"
                 >
                   <div className="px-4 py-3 text-sm border-b border-default">

@@ -5,12 +5,14 @@ export const UserContext = createContext();
 export function UserContextProvider(props) {
   const [user, setUser] = useState(localStorage.getItem("userToken"));
 
-  // useEffect(()=>{
-  //     let token = localStorage.getItem("userToken");
-  //     if(token){
-  //         setUser(token);
-  //     }
-  // }, []);
+  useEffect(()=>{
+      let token = localStorage.getItem("userToken");
+      if(token){
+          setUser(token);
+
+      }
+  }, []);
+
 
   // or
 

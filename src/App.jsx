@@ -10,8 +10,7 @@ import ProtectedRoute from "./Components/ProtectedRoute";
 import { PostsContextProvider } from "./Context/postsContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import PostDetails from "./Components/postDetails";
-import { UserProfileContextProvider } from "./Context/UserProfileContext";
+import PostDetails from "./Components/PostDetails";
 import toast, { Toaster } from "react-hot-toast";
 
 const query = new QueryClient();
@@ -55,15 +54,13 @@ let route = createBrowserRouter([
 export function App() {
   return (
     <UserContextProvider>
-      <UserProfileContextProvider>
-        <PostsContextProvider>
-          <QueryClientProvider client={query}>
-            <RouterProvider router={route} />
-            <ReactQueryDevtools initialIsOpen={false} />
-            <Toaster/>
-          </QueryClientProvider>
-        </PostsContextProvider>
-      </UserProfileContextProvider>
+      <PostsContextProvider>
+        <QueryClientProvider client={query}>
+          <RouterProvider router={route} />
+          <ReactQueryDevtools initialIsOpen={false} />
+          <Toaster />
+        </QueryClientProvider>
+      </PostsContextProvider>
     </UserContextProvider>
   );
 }

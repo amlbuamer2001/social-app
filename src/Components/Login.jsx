@@ -42,9 +42,9 @@ export default function Login() {
         
         if (res.data.message === "success") {
           setloading(false);
-          navigate("/home");            //go login
           localStorage.setItem("userToken", res.data.token);
           setUser(res.data.token)
+          navigate("/");            //go login
         }
       })
       .catch((error) => {
