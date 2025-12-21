@@ -7,7 +7,7 @@ import NotFound from "./Components/NotFound";
 import Profile from "./Components/Profile";
 import { UserContextProvider } from "./Context/UserContext";
 import ProtectedRoute from "./Components/ProtectedRoute";
-import { PostsContextProvider } from "./Context/postsContext";
+// import { PostsContextProvider } from "./Context/postsContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import PostDetails from "./Components/PostDetails";
@@ -54,13 +54,13 @@ let route = createBrowserRouter([
 export function App() {
   return (
     <UserContextProvider>
-      <PostsContextProvider>
+      {/* <PostsContextProvider> */}
         <QueryClientProvider client={query}>
           <RouterProvider router={route} />
           <ReactQueryDevtools initialIsOpen={false} />
           <Toaster />
         </QueryClientProvider>
-      </PostsContextProvider>
+      {/* </PostsContextProvider> */}
     </UserContextProvider>
   );
 }
